@@ -9,7 +9,7 @@
 import Foundation
 
 /// A value the holds the details if Movie search response
-struct MoviesResponse {
+struct MoviesResponse: Codable {
     
     /// The index of the current page
     let page: Int
@@ -22,4 +22,11 @@ struct MoviesResponse {
     
     /// A list of the movies found for the given query
     let results: [Movie]?
+    
+    enum CodingKeys: String, CodingKey {
+        case page, results
+        
+        case totalPages = "total_pages"
+        case totalResults = "total_results"
+    }
 }

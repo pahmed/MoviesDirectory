@@ -1,0 +1,6 @@
+{
+    "title": "movie title",
+    "poster_path": "movie posterPath",
+    "overview": "movie overview",
+    "release_date": "movie releaseDate"
+}

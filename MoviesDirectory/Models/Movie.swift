@@ -9,7 +9,7 @@
 import Foundation
 
 /// A value that holds the movie details
-struct Movie {
+struct Movie: Codable {
     
     /// The title for the movie
     let title: String
@@ -22,4 +22,11 @@ struct Movie {
     
     /// The relsae date for the movie
     let releaseDate: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title, overview
+        
+        case posterPath = "poster_path"
+        case releaseDate = "release_date"
+    } 
 }
