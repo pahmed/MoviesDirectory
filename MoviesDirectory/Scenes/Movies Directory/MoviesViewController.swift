@@ -8,8 +8,22 @@
 
 import UIKit
 
+/// A protocol the defines the display logic abilities for an displayer
+/// A displayer is responsible for displaying the view models it gets from
+/// a presenter, also responsible for passing the user events in form of command
+/// to the interactor to run the business logic
 protocol MoviesDisplayerType {
+    
+    /// Display the sections view models in the table view
+    ///
+    /// - Parameters:
+    ///   - sections: A list of section values
+    ///   - showLoadingIndicator: A flag indicates weather a loading indicator should appear or not
     func display(sections: [Movies.ViewModel.Section], showLoadingIndicator: Bool)
+    
+    /// Displays an alert view from the given alert view model
+    ///
+    /// - Parameter viewModel: A view model alert value with title and message
     func display(alert viewModel: Movies.ViewModel.Alert)
 }
 
@@ -21,7 +35,7 @@ class MoviesViewController: UIViewController, MoviesDisplayerType {
     private var sections: [Movies.ViewModel.Section] = []
     
     lazy var interactor: MoviesInteractorType = {
-        return SearchInteractor(viewController: self)
+        return MoviesInteractor(presenter: MoviesPresenter(viewController: self))
     }()
     
     override func viewDidLoad() {
@@ -45,6 +59,8 @@ class MoviesViewController: UIViewController, MoviesDisplayerType {
             .show(in: self)
     }
     
+    // MARK: - Helpers
+    
     private func setLoadingIndicator(visibile: Bool) {
         if visibile {
             let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -62,16 +78,16 @@ class MoviesViewController: UIViewController, MoviesDisplayerType {
 extension MoviesViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        interactor.showRecentSearches()
+        interactor.loadRecentSearches()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        interactor.showSearchResults(for: searchBar.text ?? "")
+        interactor.loadSearchResults(for: searchBar.text ?? "")
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        interactor.showCurrentMovies()
+        interactor.loadCurrentMovies()
     }
 }
 
@@ -98,7 +114,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
             
         case .recent(let recentItem):
             let cell = tableView.dequeueReusableCell(withIdentifier: "recentCell", for: indexPath)
-            cell.textLabel?.text = recentItem.movieName
+            cell.textLabel?.text = recentItem.query
             return cell
         }
     }
@@ -120,8 +136,8 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch item {
         case .recent(let recentItem):
-            seachBar.text = recentItem.movieName
-            interactor.showSearchResults(for: recentItem.movieName)
+            seachBar.text = recentItem.query
+            interactor.loadSearchResults(for: recentItem.query)
             seachBar.resignFirstResponder()
             
         case .movie:

@@ -19,6 +19,18 @@ class EndpointTests: XCTestCase {
         super.tearDown()
     }
     
+    func testPath() {
+        let endpoint = Endpoint.search(apiKey: "key", query: "query", page: 1)
+        
+        XCTAssertEqual(endpoint.path, "/search/movie?api_key=key&query=query&page=1")
+    }
+    
+    func testMethod() {
+        let endpoint = Endpoint.search(apiKey: "key", query: "query", page: 1)
+        
+         XCTAssertEqual(endpoint.method, HTTPMethod.get)
+    }
+    
     func testDecodingMovie() {
         let endpoint = Endpoint.search(apiKey: "key", query: "query", page: 1)
         

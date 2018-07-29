@@ -19,6 +19,8 @@ class MoviesAPIStore: MovieStoreType {
     
     init(api: API = API()) {
         self.api = api
+        
+        loadRecentQueries()
     }
     
     func movies(
@@ -46,6 +48,29 @@ class MoviesAPIStore: MovieStoreType {
         }
         
         recentQueries.insert(query, at: 0)
+        
+        if recentQueries.count > Constants.Preferences.maximumNumerOfRecentMovies {
+            recentQueries.removeLast()
+        }
+        
+        persistRecentQueries()
+    }
+    
+    /// Load the saved queries
+    func loadRecentQueries() {
+        self.recentQueries = UserDefaults.standard.array(forKey: Constants.UserDefaultsKeys.recentQueries) as? [String] ?? []
+    }
+    
+    /// Persist the recent queries
+    func persistRecentQueries() {
+        UserDefaults.standard.set(recentQueries, forKey: Constants.UserDefaultsKeys.recentQueries)
+        UserDefaults.standard.synchronize()
+    }
+    
+    func clearRecent() {
+        recentQueries = []
+        UserDefaults.standard.set([], forKey: Constants.UserDefaultsKeys.recentQueries)
+        UserDefaults.standard.synchronize()
     }
 }
 

@@ -7,7 +7,20 @@
 		<key>MoviesDirectory.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>3</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>0F6F1BFA210C7E6200E7BB98</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0F6F1C0E210C7E6500E7BB98</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
