@@ -18,4 +18,5 @@ enum MoviesRequestError: Error {
     case unknown
     case mapping
     case noResults
+    case noInternetConnection
 }

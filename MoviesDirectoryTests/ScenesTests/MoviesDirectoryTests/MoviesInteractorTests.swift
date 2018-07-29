@@ -10,6 +10,7 @@ import XCTest
 @testable import MoviesDirectory
 
 class PresenterMock: MoviesPresenterType {
+    
     var movies: [Movie] = []
     var recentSearches: [String] = []
     var error: MoviesRequestError?
@@ -27,10 +28,14 @@ class PresenterMock: MoviesPresenterType {
     func present(error: MoviesRequestError) {
         self.error = error
     }
+    
+    func present(isLoading: Bool) {
+        self.isLoading = isLoading
+    }
 }
 
 class StoreMock: MovieStoreType {
-    func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask {
+    func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask? {
         return URLSessionDataTask()
     }
     
@@ -83,7 +88,7 @@ class MoviesInteractorTests: XCTestCase {
     
     func testLoadRecentSearches() {
         class StoreMock: MovieStoreType {
-            func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask {
+            func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask? {
                 return URLSessionDataTask()
             }
             

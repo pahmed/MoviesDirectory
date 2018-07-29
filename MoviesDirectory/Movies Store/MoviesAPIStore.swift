@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Reachability
 
 /// A concrete implementation for `MovieStoreType`, this gets the data through API
 class MoviesAPIStore: MovieStoreType {
@@ -17,6 +18,9 @@ class MoviesAPIStore: MovieStoreType {
     /// The recent successful queries
     private(set) var recentQueries: [String] = []
     
+    /// A network reacability variable for checking if there is internet connection
+    private lazy var reachability = Reachability()
+    
     init(api: API = API()) {
         self.api = api
         
@@ -26,7 +30,12 @@ class MoviesAPIStore: MovieStoreType {
     func movies(
         for query: String,
         page: Int,
-        completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask {
+        completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask? {
+        
+        guard reachability?.connection != .some(.none) else {
+            completion(.failure(.noInternetConnection))
+            return nil
+        }
         
         return api.movies(for: query, page: page, completion: { (result) in
             switch result {
@@ -67,6 +76,7 @@ class MoviesAPIStore: MovieStoreType {
         UserDefaults.standard.synchronize()
     }
     
+    /// Clear the recent searches from memory and persistent store
     func clearRecent() {
         recentQueries = []
         UserDefaults.standard.set([], forKey: Constants.UserDefaultsKeys.recentQueries)

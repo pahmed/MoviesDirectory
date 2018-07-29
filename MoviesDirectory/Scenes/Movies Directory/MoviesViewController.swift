@@ -25,6 +25,8 @@ protocol MoviesDisplayerType {
     ///
     /// - Parameter viewModel: A view model alert value with title and message
     func display(alert viewModel: Movies.ViewModel.Alert)
+    
+    func displayLoadingIndicator(visibile: Bool)
 }
 
 class MoviesViewController: UIViewController, MoviesDisplayerType {
@@ -57,6 +59,10 @@ class MoviesViewController: UIViewController, MoviesDisplayerType {
         Alert(title: viewModel.title, message: viewModel.message)
             .addCancelAction(title: NSLocalizedString("Ok", comment: ""))
             .show(in: self)
+    }
+    
+    func displayLoadingIndicator(visibile: Bool) {
+        setLoadingIndicator(visibile: visibile)
     }
     
     // MARK: - Helpers

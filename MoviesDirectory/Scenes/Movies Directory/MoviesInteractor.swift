@@ -33,18 +33,22 @@ class MoviesInteractor: MoviesInteractorType {
     
     let presenter: MoviesPresenterType
     let store: MovieStoreType
-    var runningTask: DataRequestTask?
+    private var runningTask: DataRequestTask?
     var accumlatedResponse: MoviesResponse? {
         didSet {
             loadCurrentMovies()
         }
     }
+    
+    /// A flag that indicates weather there is a page is being loaded
     var isLoading = false {
         didSet {
-            loadCurrentMovies()
+            presenter.present(isLoading: isLoading)
         }
     }
-    var query: String?
+    
+    /// The recent search query
+    private var query: String?
     
     // MARK: - Initializers
     

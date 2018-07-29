@@ -29,6 +29,8 @@ protocol MoviesPresenterType {
     ///
     /// - Parameter error: An error value
     func present(error: MoviesRequestError)
+    
+    func present(isLoading: Bool)
 }
 
 class MoviesPresenter: MoviesPresenterType {
@@ -71,6 +73,10 @@ class MoviesPresenter: MoviesPresenterType {
         viewController.display(alert: viewModel)
     }
     
+    func present(isLoading: Bool) {
+        viewController.displayLoadingIndicator(visibile: isLoading)
+    }
+    
     // MARK: - Helpers
     
     func viewModel(for error: MoviesRequestError) -> Movies.ViewModel.Alert {
@@ -81,6 +87,10 @@ class MoviesPresenter: MoviesPresenterType {
         case .noResults:
             title = NSLocalizedString("No Results!", comment: "")
             message = NSLocalizedString("No results found, try to search using different movie name", comment: "")
+            
+        case .noInternetConnection:
+            title = NSLocalizedString("No Internet Connection!", comment: "")
+            message = NSLocalizedString("Please make sure you are connected to the internet and try again later", comment: "")
             
         default:
             title = NSLocalizedString("Oops!", comment: "")

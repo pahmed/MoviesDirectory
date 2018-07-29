@@ -32,6 +32,7 @@ class MoviesPresenterTests: XCTestCase {
     
     func testPresentMovies() {
         class MoviesDisplayerMock: MoviesDisplayerType {
+            
             var sections: [Movies.ViewModel.Section] = []
             var showLoadingIndicator = false
             func display(sections: [Movies.ViewModel.Section], showLoadingIndicator: Bool) {
@@ -40,6 +41,9 @@ class MoviesPresenterTests: XCTestCase {
             }
             
             func display(alert viewModel: Movies.ViewModel.Alert) {
+            }
+            
+            func displayLoadingIndicator(visibile: Bool) {
             }
         }
         
@@ -77,6 +81,7 @@ class MoviesPresenterTests: XCTestCase {
     
     func testPresentRecentSearches() {
         class MoviesDisplayerMock: MoviesDisplayerType {
+            
             var sections: [Movies.ViewModel.Section] = []
             var showLoadingIndicator = false
             func display(sections: [Movies.ViewModel.Section], showLoadingIndicator: Bool) {
@@ -85,6 +90,9 @@ class MoviesPresenterTests: XCTestCase {
             }
             
             func display(alert viewModel: Movies.ViewModel.Alert) {
+            }
+            
+            func displayLoadingIndicator(visibile: Bool) {
             }
         }
         
@@ -116,6 +124,7 @@ class MoviesPresenterTests: XCTestCase {
     
     func testPresentError() {
         class MoviesDisplayerMock: MoviesDisplayerType {
+            
             var viewModel: Movies.ViewModel.Alert?
             
             func display(sections: [Movies.ViewModel.Section], showLoadingIndicator: Bool) {
@@ -123,6 +132,9 @@ class MoviesPresenterTests: XCTestCase {
             
             func display(alert viewModel: Movies.ViewModel.Alert) {
                 self.viewModel = viewModel
+            }
+            
+            func displayLoadingIndicator(visibile: Bool) {
             }
         }
         

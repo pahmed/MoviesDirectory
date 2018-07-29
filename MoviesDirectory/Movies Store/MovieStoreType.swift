@@ -18,7 +18,7 @@ protocol MovieStoreType {
     ///   - page: The requested page number, this is helpful when you want to implement pagination
     ///   - completion: A `Result` closure to be called on completion with result of either `MoviesResponse` or `MoviesRequestError`
     /// - Returns: A task refrence to the running operaiton, this is helpful if you want to cancel a running operation
-    func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask
+    func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask?
     
     /// Save a search query to the store
     ///
