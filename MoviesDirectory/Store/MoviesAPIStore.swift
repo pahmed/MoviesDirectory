@@ -37,15 +37,21 @@ class MoviesAPIStore: MovieStoreType {
             return nil
         }
         
-        return api.movies(for: query, page: page, completion: { (result) in
+        let endpoint = Endpoint.search(query: query, page: page)
+        
+        return api.requestObject(for: endpoint) { (result: Result<MoviesResponse, MoviesRequestError>) in
             switch result {
             case .success(let response):
-                completion(.success(response))
+                if (response.results?.isEmpty ?? true) {
+                    completion(.failure(.noResults))
+                } else {
+                    completion(.success(response))
+                }
                 
-            case .failure(let error):
-                completion(.failure(error))
+            case .failure:
+                completion(.failure(.mapping))
             }
-        })
+        }
     }
     
     /// Saves a search query to the recent searchs

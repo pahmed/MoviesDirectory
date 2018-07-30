@@ -12,11 +12,11 @@ import Foundation
 /// Any new endpoint should be defines here
 enum Endpoint: EndpointType {
     
-    case search(apiKey: String, query: String, page: Int)
+    case search(query: String, page: Int)
     
     var path: String {
         switch self {
-        case let .search(apiKey, query, page):
+        case let .search(query, page):
             return "/search/movie?api_key=\(apiKey)&query=\(query)&page=\(page)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         }
     }
@@ -29,7 +29,14 @@ enum Endpoint: EndpointType {
     }
     
     func decode<T>(data: Data) throws -> T where T : Decodable {
-        return try JSONDecoder().decode(T.self, from: data)
+        switch self {
+        case .search:
+            return try JSONDecoder().decode(T.self, from: data)
+        }
+    }
+    
+    private var apiKey: String {
+        return Constants.API.apiKey
     }
     
 }

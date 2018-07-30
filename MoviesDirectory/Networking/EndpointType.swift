@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// A protocol that defines the requirements for creating an endpoint
 protocol EndpointType {
     

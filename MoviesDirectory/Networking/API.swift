@@ -23,35 +23,6 @@ class API {
         self.configuration = configuration
     }
     
-    /// A search movies API that returns a movies result page given a search query
-    ///
-    /// - Parameters:
-    ///   - query: A substring of the movie name
-    ///   - page: A 1 based index for the
-    ///   - completion: A `Result` closure to be called on completion with result of either `MoviesResponse` or `MoviesRequestError`
-    /// - Returns: The request data task.
-    func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> URLSessionTask {
-        let endpoint = Endpoint.search(apiKey: configuration.apiKey, query: query, page: page)
-        
-        let task = requestObject(for: endpoint) { (result: Result<MoviesResponse, MoviesRequestError>) in
-            switch result {
-            case .success(let response):
-                if (response.results?.isEmpty ?? true) {
-                    completion(.failure(.noResults))
-                } else {
-                    completion(.success(response))
-                }
-                
-            case .failure:
-                completion(.failure(.mapping))
-            }
-        }
-        
-        task.resume()
-        
-        return task
-    }
-    
     /// A generic async method that takes and API endpoint and execute a URLSession task
     ///
     /// - Parameters:
@@ -78,6 +49,8 @@ class API {
                 completion(.failure(.mapping))
             }
         }
+        
+        task.resume()
         
         return task
     }
