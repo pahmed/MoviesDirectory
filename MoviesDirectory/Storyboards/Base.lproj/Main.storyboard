@@ -33,6 +33,7 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F53-sw-WZ0">
                                                     <rect key="frame" x="15" y="11" width="71" height="104"/>
+                                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="F53-sw-WZ0" secondAttribute="height" multiplier="71:104" id="coC-qV-UdK"/>
                                                         <constraint firstAttribute="height" constant="104" id="qcf-pl-zct"/>
