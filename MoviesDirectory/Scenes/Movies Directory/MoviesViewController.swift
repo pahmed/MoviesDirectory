@@ -89,7 +89,13 @@ class MoviesViewController: UIViewController, MoviesDisplayerType {
 extension MoviesViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
         interactor.loadRecentSearches()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        interactor.loadCurrentMovies()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -98,6 +104,7 @@ extension MoviesViewController: UISearchBarDelegate {
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
         interactor.loadCurrentMovies()
     }
 }
