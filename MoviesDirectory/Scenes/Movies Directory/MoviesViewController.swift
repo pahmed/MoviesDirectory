@@ -62,7 +62,9 @@ class MoviesViewController: UIViewController, MoviesDisplayerType {
     }
     
     func displayLoadingIndicator(visibile: Bool) {
-        setLoadingIndicator(visibile: visibile)
+        DispatchQueue.main.async { [weak self] in
+            self?.setLoadingIndicator(visibile: visibile)
+        }
     }
     
     // MARK: - Helpers
