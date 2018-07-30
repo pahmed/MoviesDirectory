@@ -148,6 +148,58 @@ class MoviesPresenterTests: XCTestCase {
         XCTAssertEqual(displayer.viewModel?.message, "No results found, try to search using different movie name")        
     }
     
+    func testPresentNoInternetConectionError() {
+        class MoviesDisplayerMock: MoviesDisplayerType {
+            
+            var viewModel: Movies.ViewModel.Alert?
+            
+            func display(sections: [Movies.ViewModel.Section], showLoadingIndicator: Bool) {
+            }
+            
+            func display(alert viewModel: Movies.ViewModel.Alert) {
+                self.viewModel = viewModel
+            }
+            
+            func displayLoadingIndicator(visibile: Bool) {
+            }
+        }
+        
+        let displayer = MoviesDisplayerMock()
+        
+        let presenter = MoviesPresenter(viewController: displayer)
+        
+        presenter.present(error: .noInternetConnection)
+        
+        XCTAssertEqual(displayer.viewModel?.title, "No Internet Connection!")
+        XCTAssertEqual(displayer.viewModel?.message, "Please make sure you are connected to the internet and try again later")
+    }
+    
+    func testPresentIsLoading() {
+        class MoviesDisplayerMock: MoviesDisplayerType {
+            
+            var isLoading = false
+            
+            func display(sections: [Movies.ViewModel.Section], showLoadingIndicator: Bool) {
+            }
+            
+            func display(alert viewModel: Movies.ViewModel.Alert) {
+                
+            }
+            
+            func displayLoadingIndicator(visibile: Bool) {
+                isLoading = visibile
+            }
+        }
+        
+        let displayer = MoviesDisplayerMock()
+        
+        let presenter = MoviesPresenter(viewController: displayer)
+        
+        presenter.present(isLoading: true)
+        
+        XCTAssertEqual(displayer.isLoading, true)
+    }
+    
     func testMovieViewModel() {
         let presenter = MoviesPresenter(
             viewController: MoviesViewController(

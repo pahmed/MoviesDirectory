@@ -48,7 +48,7 @@ class MoviesInteractor: MoviesInteractorType {
     }
     
     /// The recent search query
-    private var query: String?
+    var query: String?
     
     // MARK: - Initializers
     

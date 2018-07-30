@@ -86,6 +86,36 @@ class MoviesInteractorTests: XCTestCase {
         XCTAssertEqual(presenter.isLoading, true)
     }
     
+    func testLoadSearchResults() {
+        class StoreMock: MovieStoreType {
+            var recentQueries: [String] = []
+            
+            func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask? {
+                return URLSessionDataTask()
+            }
+            
+            func saveSearchQuery(_ query: String) {
+                
+            }
+        }
+        
+        let store = StoreMock()
+        let presenter = PresenterMock()
+        let interactor = MoviesInteractor(
+            presenter: presenter,
+            store: store
+        )
+        
+        interactor.accumlatedResponse = MoviesResponse(
+            page: 0, totalPages: 0, totalResults: 0, results: nil
+        )
+        
+        interactor.loadSearchResults(for: "q")
+        
+        XCTAssertEqual(interactor.query, "q")
+        XCTAssertNil(interactor.accumlatedResponse)
+    }
+    
     func testLoadRecentSearches() {
         class StoreMock: MovieStoreType {
             func movies(for query: String, page: Int, completion: @escaping (Result<MoviesResponse, MoviesRequestError>) -> ()) -> DataRequestTask? {

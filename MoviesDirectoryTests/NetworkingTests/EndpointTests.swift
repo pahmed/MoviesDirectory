@@ -20,19 +20,19 @@ class EndpointTests: XCTestCase {
     }
     
     func testPath() {
-        let endpoint = Endpoint.search(apiKey: "key", query: "query", page: 1)
+        let endpoint = Endpoint.search(query: "query", page: 1)
         
-        XCTAssertEqual(endpoint.path, "/search/movie?api_key=key&query=query&page=1")
+        XCTAssertEqual(endpoint.pathFor(apiKey: "key"), "/search/movie?api_key=key&query=query&page=1")
     }
     
     func testMethod() {
-        let endpoint = Endpoint.search(apiKey: "key", query: "query", page: 1)
+        let endpoint = Endpoint.search(query: "query", page: 1)
         
          XCTAssertEqual(endpoint.method, HTTPMethod.get)
     }
     
     func testDecodingMovie() {
-        let endpoint = Endpoint.search(apiKey: "key", query: "query", page: 1)
+        let endpoint = Endpoint.search(query: "query", page: 1)
         
         let bundle = Bundle(for: type(of: self))
         
@@ -51,7 +51,7 @@ class EndpointTests: XCTestCase {
     }
     
     func testDecodingMoviesResponse() {
-        let endpoint = Endpoint.search(apiKey: "key", query: "query", page: 1)
+        let endpoint = Endpoint.search(query: "query", page: 1)
         
         let bundle = Bundle(for: type(of: self))
         

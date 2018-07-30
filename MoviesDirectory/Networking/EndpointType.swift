@@ -11,11 +11,11 @@ import Foundation
 /// A protocol that defines the requirements for creating an endpoint
 protocol EndpointType {
     
-    /// The endopint path
-    var path: String { get }
-    
     /// The endpoint http method
     var method: HTTPMethod { get }
+    
+    /// The endopint path
+    func pathFor(apiKey: String) -> String
     
     /// A generic mthod to decode raw Data response to an object with type T.
     ///

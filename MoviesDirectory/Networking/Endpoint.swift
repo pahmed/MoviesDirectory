@@ -13,14 +13,7 @@ import Foundation
 enum Endpoint: EndpointType {
     
     case search(query: String, page: Int)
-    
-    var path: String {
-        switch self {
-        case let .search(query, page):
-            return "/search/movie?api_key=\(apiKey)&query=\(query)&page=\(page)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        }
-    }
-    
+        
     var method: HTTPMethod {
         switch self {
         case .search:
@@ -28,15 +21,18 @@ enum Endpoint: EndpointType {
         }
     }
     
-    func decode<T>(data: Data) throws -> T where T : Decodable {
+    func pathFor(apiKey: String) -> String {
         switch self {
-        case .search:
-            return try JSONDecoder().decode(T.self, from: data)
+        case let .search(query, page):
+            return "/search/movie?api_key=\(apiKey)&query=\(query)&page=\(page)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         }
     }
     
-    private var apiKey: String {
-        return Constants.API.apiKey
+    func decode<T>(data: Data) throws -> T where T : Decodable {
+        switch self {
+        default:
+            return try JSONDecoder().decode(T.self, from: data)
+        }
     }
     
 }

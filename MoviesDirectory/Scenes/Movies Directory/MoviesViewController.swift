@@ -26,6 +26,9 @@ protocol MoviesDisplayerType {
     /// - Parameter viewModel: A view model alert value with title and message
     func display(alert viewModel: Movies.ViewModel.Alert)
     
+    /// Display of hide a loading indicator based on the `visibility` flag
+    ///
+    /// - Parameter visibile: A boolean that indicates weather a loding indicator should appear or not
     func displayLoadingIndicator(visibile: Bool)
 }
 
@@ -133,8 +136,9 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let isLastItem = (indexPath.row == self.tableView(tableView, numberOfRowsInSection: 0) - 1)
+        let isSearching = seachBar.isFirstResponder
         
-        if isLastItem && seachBar.isFirstResponder == false {
+        if isLastItem && isSearching == false {
             interactor.loadNexPage()
         }
     }

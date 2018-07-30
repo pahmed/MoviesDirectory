@@ -33,7 +33,8 @@ class API {
         for endpoint: EndpointType,
         completion: @escaping (Result<T, MoviesRequestError>) -> ()) -> URLSessionTask {
         
-        let url = URL(string: configuration.baseURL.absoluteString.appending(endpoint.path))!
+        let path = endpoint.pathFor(apiKey: configuration.apiKey)
+        let url = URL(string: configuration.baseURL.absoluteString.appending(path))!
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {
